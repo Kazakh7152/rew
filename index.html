@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Anomaly Zone - Кордон</title>
+  <style>
+    @font-face {
+      font-family: 'StalkerAlt';
+      src: url('https://fonts.cdnfonts.com/s/102047/Road_Rage.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    /* Убираем фон с body и центрируем наш контейнер с картинкой */
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #000; /* Черный фон для областей, не занятых картинкой */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* * ГЛАВНЫЙ КОНТЕЙНЕР ДЛЯ ИЗОБРАЖЕНИЯ И ТЕКСТА
+     * Он будет масштабироваться, сохраняя пропорции картинки 1920x1080
+     */
+    .image-container {
+      position: relative; /* Включаем позиционирование для дочерних элементов */
+      width: 100vw;
+      max-height: 100vh;
+      aspect-ratio: 1920 / 1080; /* Жестко задаем пропорции 16:9 */
+      background: url('https://i.ibb.co.com/27NtkgPF/1.png') no-repeat center center;
+      background-size: contain; /* Масштабирует картинку, чтобы она полностью поместилась */
+      overflow: hidden; /* Скрываем все, что может выйти за пределы */
+    }
+
+    /*
+     * ТЕПЕРЬ ВСЕ ЭЛЕМЕНТЫ ПОЗИЦИОНИРУЮТСЯ ОТНОСИТЕЛЬНО КОНТЕЙНЕРА С КАРТИНКОЙ,
+     * А НЕ ОТНОСИТЕЛЬНО ОКНА БРАУЗЕРА
+     */
+
+    /* Загрузка */
+    .loading {
+      position: absolute;
+      top: 69%; /* Отступ сверху в % от высоты картинки. (Было bottom: 27%) */
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: Consolas, monospace;
+      font-size: clamp(20px, 1.5vw, 32px);
+      color: #ffb84d;
+      text-shadow: 0 0 10px rgba(255,180,77,0.7);
+      z-index: 10;
+    }
+
+    /* Блок советов */
+    .tips {
+      position: absolute;
+      top: 90%; /* Отступ сверху. (Было bottom: 7%) */
+      left: 50%;
+      transform: translate(-50%, -50%); /* Центрируем блок по вертикали и горизонтали */
+      width: 40%;
+      max-width: 900px;
+      color: #ffdb99;
+      font-family: monospace, sans-serif;
+      font-size: clamp(16px, 1.2vw, 22px);
+      text-align: center;
+      z-index: 10;
+    }
+
+    .tips h3 {
+      margin: 0 0 5px 0;
+      color: #ffb84d;
+      font-size: clamp(16px, 1.2vw, 22px);
+    }
+
+    .tips #tipText {
+      margin-top: 5px;
+      font-size: clamp(14px, 1.1vw, 20px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="image-container">
+    <div class="loading" id="loading">Загрузка</div>
+
+    <div class="tips">
+      <h3>Совет:</h3>
+      <div id="tipText"></div>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript остается без изменений
+    const tips = [
+      'В Зоне нет случайностей — если нашёл артефакт слишком легко, значит, рядом что-то тебя уже ждёт.',
+      'Патроны — это валюта. Береги их, торгуй ими, но никогда не оставайся без пары магазинов в запасе.',
+      'Аномалия «Воронка» тянет вниз быстрее, чем успеешь выругаться. Болт в помощь — кидай, пока жив.',
+      'Не верь улыбкам наёмников. Их контракт всегда дороже твоей жизни.',
+      'Артефакт «Каменный цветок» красив, но радиоактивен — таскай с контейнером или умрёшь медленно.',
+      'Хабар в схронах редко лежит бесхозно — кто-то его туда положил и может вернуться.',
+      'Ночью в Зоне тишина громче выстрелов — прислушивайся, она подскажет, кто рядом.',
+      'Пси-излучение ломает не кости, а голову. Не недооценивай его.',
+      'Если услышал треск детектора — не суетись, а думай: артефакт рядом или ловушка?',
+      'Зона не любит глупых — будь хитрым, будь живым.'
+    ];
+
+    let tipIndex = 0;
+    const tipText = document.getElementById('tipText');
+
+    function showTip() {
+      tipText.textContent = tips[tipIndex];
+      tipIndex = (tipIndex + 1) % tips.length;
+    }
+
+    showTip();
+    setInterval(showTip, 30000);
+
+    const loading = document.getElementById("loading");
+    let dots = 0;
+    setInterval(() => {
+      dots = (dots + 1) % 4;
+      loading.textContent = "Загрузка" + ".".repeat(dots);
+    }, 1000);
+  </script>
+</body>
+</html>
